@@ -1,0 +1,7 @@
+spring:
+  jackson:
+    visibility:
+      field: any # Allow Jackson to serialize DTOs without default constructor. We want constructors defined by our domain, or all-args constructor.
+logging:
+  level:
+    com.company.route: info

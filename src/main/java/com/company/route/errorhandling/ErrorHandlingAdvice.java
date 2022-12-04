@@ -4,10 +4,8 @@ import static java.util.stream.Collectors.toList;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
-import jakarta.validation.ConstraintViolationException;
 import java.time.ZonedDateTime;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,7 +25,6 @@ class ErrorHandlingAdvice {
    * inside Controller
    *
    * @param e the exception
-   *
    * @return a uniform error response
    */
   @ResponseStatus(BAD_REQUEST)
@@ -42,31 +39,6 @@ class ErrorHandlingAdvice {
         .collect(toList());
 
     return getErrorResponse(e.getClass().getSimpleName(), "Invalid request, see data", errors);
-  }
-
-  /**
-   * Data Integrity constraint violations are thrown by database constraint validations. Violations are created by
-   * invalid request body or query params.
-   *
-   * @param e the exception
-   * @return a uniform error response
-   */
-  @ResponseStatus(BAD_REQUEST)
-  @ExceptionHandler
-  ErrorResponse handleDataIntegrityViolationException(DataIntegrityViolationException e) {
-    log.info("DataIntegrityViolationException: {}", e.getMessage());
-
-    if (!(e.getCause() instanceof ConstraintViolationException)) {
-      return handleThrowable(e);
-    }
-
-    var ex = (ConstraintViolationException) e.getCause();
-    var errors = ex.getConstraintViolations()
-        .stream()
-        .map(cv -> String.format("%s: %s", cv.getMessage(), cv.getInvalidValue()))
-        .collect(toList());
-
-    return getErrorResponse(e.getClass().getSimpleName(), "Invalid request params, see data", errors);
   }
 
   /**

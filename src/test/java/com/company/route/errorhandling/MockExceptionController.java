@@ -25,7 +25,7 @@ class MockExceptionController {
   @GetMapping("/argument-not-valid")
   void argumentNotValid() throws MethodArgumentNotValidException {
     var someMethod = ReflectionUtils.findMethod(MockExceptionController.class, "argumentNotValid");
-    var errors = new BeanPropertyBindingResult(new Driver(), "employee");
+    var errors = new BeanPropertyBindingResult(new Driver(), "driver");
     errors.rejectValue("firstName", "UNIQUE", "Please enter unique name");
     errors.rejectValue("lastName", "MINIMUM", "Please enter at least 3 characters");
 

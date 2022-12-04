@@ -26,11 +26,11 @@ class ErrorHandlingAdviceIntegrationTest extends IntegrationTest {
         .getContentAsString();
     var errorResponse = objectMapper.readValue(response, ErrorResponse.class);
 
-    assertThat(errorResponse.getError()).isEqualTo("MethodArgumentNotValidException");
-    assertThat(errorResponse.getMessage()).isEqualTo("Invalid request, see data");
-    assertThat(errorResponse.getData()).asList()
+    assertThat(errorResponse.error()).isEqualTo("MethodArgumentNotValidException");
+    assertThat(errorResponse.message()).isEqualTo("Invalid request, see data");
+    assertThat(errorResponse.data()).asList()
         .containsExactly("firstName: Please enter unique name", "lastName: Please enter at least 3 characters");
-    assertThat(errorResponse.getTimestamp()).isCloseTo(ZonedDateTime.now(), within(1, ChronoUnit.MINUTES));
+    assertThat(errorResponse.timestamp()).isCloseTo(ZonedDateTime.now(), within(1, ChronoUnit.MINUTES));
   }
 
 
@@ -43,10 +43,10 @@ class ErrorHandlingAdviceIntegrationTest extends IntegrationTest {
         .getContentAsString();
     var errorResponse = objectMapper.readValue(response, ErrorResponse.class);
 
-    assertThat(errorResponse.getError()).isEqualTo("NotFoundException");
-    assertThat(errorResponse.getMessage()).isEqualTo("Entity does not exist");
-    assertThat(errorResponse.getData()).asString().isEqualTo("testing");
-    assertThat(errorResponse.getTimestamp()).isCloseTo(ZonedDateTime.now(), within(1, ChronoUnit.MINUTES));
+    assertThat(errorResponse.error()).isEqualTo("NotFoundException");
+    assertThat(errorResponse.message()).isEqualTo("Entity does not exist");
+    assertThat(errorResponse.data()).asString().isEqualTo("testing");
+    assertThat(errorResponse.timestamp()).isCloseTo(ZonedDateTime.now(), within(1, ChronoUnit.MINUTES));
   }
 
   @Test
@@ -58,10 +58,10 @@ class ErrorHandlingAdviceIntegrationTest extends IntegrationTest {
         .getContentAsString();
     var errorResponse = objectMapper.readValue(response, ErrorResponse.class);
 
-    assertThat(errorResponse.getError()).isEqualTo("ValidationException");
-    assertThat(errorResponse.getMessage()).isEqualTo("Validation error");
-    assertThat(errorResponse.getData()).asString().isEqualTo("testing");
-    assertThat(errorResponse.getTimestamp()).isCloseTo(ZonedDateTime.now(), within(1, ChronoUnit.MINUTES));
+    assertThat(errorResponse.error()).isEqualTo("ValidationException");
+    assertThat(errorResponse.message()).isEqualTo("Validation error");
+    assertThat(errorResponse.data()).asString().isEqualTo("testing");
+    assertThat(errorResponse.timestamp()).isCloseTo(ZonedDateTime.now(), within(1, ChronoUnit.MINUTES));
   }
 
   @Test
@@ -73,9 +73,9 @@ class ErrorHandlingAdviceIntegrationTest extends IntegrationTest {
         .getContentAsString();
     var errorResponse = objectMapper.readValue(response, ErrorResponse.class);
 
-    assertThat(errorResponse.getError()).isEqualTo("RouteServiceException");
-    assertThat(errorResponse.getMessage()).isEqualTo("Internal server error, please contact support");
-    assertThat(errorResponse.getData()).isNull();
-    assertThat(errorResponse.getTimestamp()).isCloseTo(ZonedDateTime.now(), within(1, ChronoUnit.MINUTES));
+    assertThat(errorResponse.error()).isEqualTo("RouteServiceException");
+    assertThat(errorResponse.message()).isEqualTo("Internal server error, please contact support");
+    assertThat(errorResponse.data()).isNull();
+    assertThat(errorResponse.timestamp()).isCloseTo(ZonedDateTime.now(), within(1, ChronoUnit.MINUTES));
   }
 }

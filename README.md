@@ -21,8 +21,3 @@ This routing controller provides the following endpoint:
 1. Project requires JDK 17
 2. Execute `mvn install` to build source code
 3. Execute `mvn spring-boot:run` to start the project
-
-## REST API documentation - Swagger
-**Swagger UI** documentation is configured at http://localhost:8080/swagger-ui/index.html
-<br>Documentation is sourced
-from RestController JavaDocs by using springdoc **therapi-runtime-javadoc-scribe** Comments with @ApiOperation are also supported.
